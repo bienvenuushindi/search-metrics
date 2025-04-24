@@ -1,12 +1,32 @@
 <%= turbo_frame_tag "search_results" do %>
-  <% if @articles.any? %>
+  <% if params[:term].present? && @pagy.present? && @pagy.count > 0 %>
+    <div class="px-6 py-4 shadow">
+      <h2 class="font-bold text-xl mb-2"><%= @pagy.count %> Results</h2>
+      <div class="flex items-center justify-center w-full">
+        <%= raw pagy_nav(@pagy) %>
+      </div>
+      <p class="text-center mt-6 text-gray-500"><%= raw pagy_info(@pagy) %></p>
+    </div>
+  <% end %>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
     <% @articles.each do |article| %>
-      <div class="p-4 border rounded-lg shadow-sm">
-        <h3 class="text-xl font-semibold"><%= article.title %></h3>
-        <p class="text-gray-600"><%= article.content %></p>
+      <div class="px-4 py-2 border border-gray-200 shadow-sm">
+        <div class="px-6 py-4">
+          <h2 class="font-bold text-xl mb-2">
+            <%= highlight(article.title, params[:term].to_s.split) %>
+          </h2>
+          <p class="text-gray-700 text-base">
+            <%= highlight(article.content, params[:term].to_s.split) %>
+          </p>
+        </div>
       </div>
     <% end %>
-  <% else %>
-    <p class="text-gray-500">No articles found</p>
+  </div>
+
+  <% if @pagy.present? && @pagy.count > 0 %>
+    <div class="flex items-center justify-center mt-6 w-full">
+      <%= raw pagy_nav(@pagy) %>
+    </div>
   <% end %>
 <% end %>

@@ -1,1 +1,30 @@
 @import "tailwindcss";
+
+.pagy.nav {
+    display: flex;
+    gap:.5rem;
+}
+.pagy.nav > a {
+    padding: 0.2rem .5rem;
+    border-radius: 5px;
+    background: #e3e2e2;
+}
+
+
+.pagy.nav > a.current[aria-disabled="true"] {
+    background: #2563eb;
+    color: #ffffff;
+}
+
+.pagy.nav > a[aria-disabled="true"] {
+    cursor: not-allowed;
+    pointer-events: none;
+    color: #c0c0c0;
+    background-color: #ffffff;
+}
+
+
+.pagy-info b {
+    color: #2563eb;
+    font-weight: bolder;
+}

@@ -93,8 +93,10 @@
     <orderEntry type="library" scope="PROVIDED" name="nio4r (v2.7.4, rbenv: 3.3.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="nokogiri (v1.18.8, rbenv: 3.3.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="ostruct (v0.6.1, rbenv: 3.3.5) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="pagy (v9.3.4, rbenv: 3.3.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="parallel (v1.27.0, rbenv: 3.3.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="parser (v3.3.8.0, rbenv: 3.3.5) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="pg_search (v2.3.7, rbenv: 3.3.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="pp (v0.6.2, rbenv: 3.3.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="prettyprint (v0.2.0, rbenv: 3.3.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="prism (v1.4.0, rbenv: 3.3.5) [gem]" level="application" />
@@ -174,6 +176,8 @@
         <option value="mailer" />
         <option value="migration" />
         <option value="model" />
+        <option value="pg_search:migration:dmetaphone" />
+        <option value="pg_search:migration:multisearch" />
         <option value="resource" />
         <option value="scaffold" />
         <option value="scaffold_controller" />
@@ -212,6 +216,8 @@
         <option value="mailer" />
         <option value="migration" />
         <option value="model" />
+        <option value="pg_search:migration:dmetaphone" />
+        <option value="pg_search:migration:multisearch" />
         <option value="resource" />
         <option value="scaffold" />
         <option value="scaffold_controller" />

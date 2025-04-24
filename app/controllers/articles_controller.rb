@@ -4,12 +4,11 @@ class ArticlesController < ApplicationController
   end
 
   def search
-    @articles = if params_exist?
-      Article.where("title LIKE ? OR content LIKE ?",
-                    "%#{params[:term]}%",
-                    "%#{params[:term]}%")
+    if params_exist?
+      @pagy, @articles = pagy(Article.search(search_params), items: 6)
     else
-      Article.none
+      @pagy = nil
+      @articles = Article.none
     end
 
     if turbo_frame_request?
@@ -29,6 +28,6 @@ class ArticlesController < ApplicationController
     params[:term].present?
   end
   def search_params
-    params[:term].strip
+    params_exist? ? params[:term].strip : ""
   end
 end
