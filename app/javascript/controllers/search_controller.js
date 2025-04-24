@@ -1,27 +1,18 @@
+import Rails from "@rails/ujs";
 import { Controller } from "@hotwired/stimulus"
+import {useDebounce} from 'stimulus-use'
 
 export default class extends Controller {
-  static targets = ["input", "results"]
+  static targets = ["input"]
+  static debounces = ['search']
 
   connect() {
-    console.log("Search controller connected")
+    useDebounce(this, { wait: 500 })
   }
 
-  search() {
-    clearTimeout(this.timeout)
-
-    this.timeout = setTimeout(() => {
-      const query = this.inputTarget.value.trim()
-
-      if (query.length > 0) {
-        fetch(`/articles/search?query=${encodeURIComponent(query)}`)
-            .then(response => response.text())
-            .then(html => {
-              this.resultsTarget.innerHTML = html
-            })
-      } else {
-        this.resultsTarget.innerHTML = ""
-      }
-    }, 300) // 300ms debounce
+  search(event) {
+    Rails.fire(this.element, 'submit');
+    // this.element.requestSubmit()
+    event.preventDefault()
   }
 }
