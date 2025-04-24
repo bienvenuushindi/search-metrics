@@ -78,8 +78,4 @@ class SearchQueryWorker
   def extract_user_id(key)
     key.split(":")[1]
   end
-
-  def right_interval?(time1, time2 = DateTime.now.strftime("%Q"))
-    (time2.to_i - time1.to_i).abs.ceil >= 4000
-  end
 end

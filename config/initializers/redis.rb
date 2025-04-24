@@ -5,5 +5,5 @@ end
 Sidekiq.configure_client do |config|
   config.redis = { url: url }
 end
-REDIS = Redis.new(url: url)
+REDIS = Redis.new(url: url, ssl_params: { verify_mode: OpenSSL::SSL::VERIFY_NONE })
 $redis = REDIS

@@ -16,5 +16,7 @@ production:
   adapter: redis
   url: <%= ENV['REDIS_URL'] %>
   channel_prefix: search_metrics_production
+  ssl_params:
+    verify_mode: <%= OpenSSL::SSL::VERIFY_NONE %>
 
 
