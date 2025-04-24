@@ -1,0 +1,28 @@
+<div class="max-h-screen overflow-y-auto">
+  <%= turbo_frame_tag "user_logs" do %>
+    <% if @user_logs.present? %>
+      <h3>Found  <%= @user_logs.count %></h3>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <% @user_logs.each do |query_id, logs| %>
+          <div class="p-4 bg-white rounded-xl shadow-sm border border-gray-100">
+            <h2 class="text-lg font-semibold text-gray-800 mb-2">
+              🔍 Query: <%= logs.first.search_query.query %>
+            </h2>
+            <ul class="list-disc pl-5 space-y-1 text-sm text-gray-600">
+              <% logs.each do |log| %>
+                <li>
+            <span class="text-gray-700 font-medium">
+              <%= log.created_at.strftime("%b %d, %Y %H:%M") %>
+            </span>
+                  — <%= log.results_count %> article(s) found
+                </li>
+              <% end %>
+            </ul>
+          </div>
+        <% end %>
+      </div>
+      <% else %>
+      <h3>Found  0</h3>
+    <% end %>
+  <% end %>
+</div>

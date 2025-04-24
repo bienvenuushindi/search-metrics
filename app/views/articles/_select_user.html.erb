@@ -1,0 +1,9 @@
+<div data-controller="query-log" data-turbo_action="advance">
+  <label for="user_id" class="block mb-2 text-sm font-medium text-gray-700">Select User</label>
+
+  <%= select_tag :user_id,
+                 options_for_select(@users),
+                 prompt: "Choose IP Address",
+                 data: { action: "change->query-log#loadbyuser", url: user_logs_path },
+                 class: "p-2 border border-gray-300 rounded shadow-sm" %>
+</div>

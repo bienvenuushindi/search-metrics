@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_04_23_234047) do
+ActiveRecord::Schema[8.0].define(version: 2025_04_24_121809) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -20,4 +20,22 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_23_234047) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
+
+  create_table "search_logs", force: :cascade do |t|
+    t.string "ip_address"
+    t.bigint "search_query_id", null: false
+    t.integer "results_count"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["search_query_id"], name: "index_search_logs_on_search_query_id"
+  end
+
+  create_table "search_queries", force: :cascade do |t|
+    t.text "query"
+    t.integer "count", default: 0
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_foreign_key "search_logs", "search_queries"
 end

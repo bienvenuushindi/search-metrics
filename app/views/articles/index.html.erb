@@ -1,30 +1,130 @@
-<div class="container row mx-auto my-8">
+<div class="max-w-7xl mx-auto px-4 py-10">
   <div data-turbo-permanent>
-    <%= form_with(
-          url:  search_path,
-          id: 'search',
-          class: 'shadow-lg p-6 rounded',
-          method: :get,
-          data: {
-            controller: "search",
-            action: "input->search#search",
-            turbo_action: "advance",
-            turbo_frame: "search_results"
-          }
-        ) do |form| %>
+    <%= form_with url: search_path,
+                  id: 'search',
+                  method: :get,
+                  class: 'bg-white p-6 rounded-xl shadow-sm max-w-2xl mx-auto',
+                  data: {
+                    controller: "search",
+                    turbo_action: "advance",
+                    turbo_frame: "search_results"
+                  } do |form| %>
       <%= form.text_field :term,
                           value: params[:term],
                           placeholder: "Search articles...",
-                          class: "w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500",
                           autocomplete: "off",
-                          autofocus: "true",
+                          autofocus: true,
+                          class: "w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500",
                           data: {
                             action: "input->search#search"
-                          }
-      %>
+                          } %>
     <% end %>
   </div>
-  <div class="mt-4 space-y-4">
+
+  <div class="mt-10">
     <%= render "results", articles: @articles, term: params[:term] %>
   </div>
+  <div class="flex items-center justify-between mb-6 shadow-sm p-2 gap-2">
+    <h4 class="font-bold text-blue-700">Refresh this page in 20 seconds and you will see the new stats (in the future this will be dynamic)</h4>
+    <div>
+      <%= link_to 'Refresh', search_path, class: "inline-flex items-center  px-2 py-2 bg-gray-900 text-white border border-gray-300 rounded-md text-sm  hover:bg-gray-600 transition" %>
+    </div>
+  </div>
+
+  <div data-controller="query-log" class="flex flex-col items-center w-full justify-center">
+    <div class="flex justify-center items-center gap-8 w-full">
+      <label class="flex items-center gap-2 text-gray-700">
+        <input type="radio"
+               name="log_view"
+               value="general"
+               data-action="query-log#toggle"
+               checked="checked"
+               class="form-radio text-blue-600" />
+        General
+      </label>
+
+      <label class="flex items-center gap-2 text-gray-700">
+        <input type="radio"
+               name="log_view"
+               value="ip"
+               data-action="query-log#toggle"
+               class="form-radio text-blue-600" />
+        By IP/User
+      </label>
+    </div>
+    <div class="flex flex-col w-full">
+      <!-- ✅ These need to be within the controller's DOM scope -->
+      <div data-query-log-target="generalSection" class="w-full mt-8">
+        <!-- General Queries Section -->
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-10 mt-12">
+          <!-- Queries Section -->
+          <div class="space-y-6" data-controller="query-log" data-turbo_action="advance">
+            <h2 class="text-xl font-bold text-blue-700">General Searches</h2>
+
+            <% if @pagy_queries.present? && @pagy_queries.count > 0 %>
+              <div class="p-4 bg-white shadow-sm rounded-xl">
+                <h3 class="font-semibold text-gray-700 mb-2">
+                  <%= @pagy_queries.count %> Queries Found
+                </h3>
+                <div class="flex justify-center">
+                  <%= raw pagy_nav(@pagy_queries, page_param: :page_queries) %>
+                </div>
+                <p class="text-sm text-center mt-4 text-gray-500">
+                  <%= raw pagy_info(@pagy_queries) %>
+                </p>
+              </div>
+            <% end %>
+
+            <ul class="space-y-4">
+              <% @queries.each do |query| %>
+                <li id="query-id-<%= query.id %>"
+                    class="flex justify-between items-center p-4 bg-white border border-gray-200 rounded-lg hover:shadow transition">
+                  <div>
+                    <p class="text-base font-semibold text-gray-800"><%= query.query %></p>
+                    <p class="text-sm text-gray-500"><%= query.count %> logs</p>
+                  </div>
+                  <button class="flex items-center gap-2 px-3 py-1.5 text-sm bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:ring-2 focus:ring-blue-400"
+                          data-action="click->query-log#loadLogs"
+                          data-search="<%= query.id %>"
+                          data-url="<%= logs_for_query_path(query.id) %>"
+                          data-query-log-target="queryLog">
+                    <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    View Logs
+                  </button>
+                </li>
+              <% end %>
+            </ul>
+          </div>
+
+          <!-- Logs Section -->
+          <div class="space-y-6">
+            <h2 class="text-xl font-bold text-blue-700">
+              Logs for Selected Query
+            </h2>
+            <div data-query-log-target="logs">
+              <%= render "logs" %>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div data-query-log-target="ipSection" class="w-full mt-8 hidden">
+        <!-- Logs by User/IP Section -->
+        <div class="grid grid-cols-1 gap-10 mt-12">
+          <div class="space-y-6">
+            <p class="text-sm text-gray-500 mb-2">Select user to view associated search logs:</p>
+            <%= render "select_user", list: @users %>
+          </div>
+          <div class="space-y-6">
+            <p class="text-sm text-gray-500 mb-2">Select user to view associated search logs:</p>
+            <%= render "user_logs" %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
 </div>

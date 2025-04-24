@@ -5,7 +5,7 @@ gem "rails", "~> 8.0.2"
 # The modern asset pipeline for Rails [https://github.com/rails/propshaft]
 gem "propshaft"
 # Use postgres as the database for Active Record
-gem 'pg'
+gem "pg"
 # Use the Puma web server [https://github.com/puma/puma]
 gem "puma", ">= 5.0"
 # Bundle and transpile JavaScript [https://github.com/rails/jsbundling-rails]
@@ -68,3 +68,7 @@ gem "importmap-rails", "~> 2.1"
 gem "faker"
 gem "pg_search"
 gem "pagy"
+gem "redis"
+gem "sidekiq"
+gem "sidekiq-scheduler"
+gem "redis-namespace"

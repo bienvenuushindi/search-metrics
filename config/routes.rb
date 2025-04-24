@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  require "sidekiq/web"
+  mount Sidekiq::Web => "/sidekiq"
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
@@ -10,6 +12,8 @@ Rails.application.routes.draw do
   # get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
 
   # Defines the root path route ("/")
-  root "articles#index"
+  root "articles#search"
   get "/search", to: "articles#search", as: "search"
+  get "logs_for_query/:id", to: "articles#query_logs", as: "logs_for_query"
+  get "/user_logs", to: "articles#user_logs", as: "user_logs"
 end

@@ -1,0 +1,23 @@
+<div class="max-h-screen overflow-y-auto">
+  <%= turbo_frame_tag "logs" do %>
+    <% if @logs.present? %>
+      <h3>Result for <strong><%= @search_query.query %></strong></h3>
+        <% @logs.each do |ip, logs| %>
+          <div class="mb-6 p-4 bg-white shadow rounded-lg">
+            <h3 class="text-lg font-semibold text-blue-700">User : <%= ip %></h3>
+            <ul class="list-disc ml-6 text-gray-700 mt-2">
+              <% logs.each do |log| %>
+                <li class="pb-2">
+                  <%= puts log.to_json %>
+                  <strong>Logged at:</strong> <%= time_ago_in_words(log.created_at) %> ago<br>
+                  <strong>Results:</strong> <%= log.results_count %> articles<br>
+                </li>
+              <% end %>
+            </ul>
+          </div>
+        <% end %>
+      <% else %>
+      <h3>Found  0</h3>
+    <% end %>
+  <% end %>
+</div>

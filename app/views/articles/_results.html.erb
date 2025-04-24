@@ -3,7 +3,7 @@
     <div class="px-6 py-4 shadow">
       <h2 class="font-bold text-xl mb-2"><%= @pagy.count %> Results</h2>
       <div class="flex items-center justify-center w-full">
-        <%= raw pagy_nav(@pagy) %>
+        <%= raw pagy_nav(@pagy, page_param: :page_articles) %>
       </div>
       <p class="text-center mt-6 text-gray-500"><%= raw pagy_info(@pagy) %></p>
     </div>
@@ -26,7 +26,7 @@
 
   <% if @pagy.present? && @pagy.count > 0 %>
     <div class="flex items-center justify-center mt-6 w-full">
-      <%= raw pagy_nav(@pagy) %>
+      <%= raw pagy_nav(@pagy, page_param: :page_articles) %>
     </div>
   <% end %>
 <% end %>

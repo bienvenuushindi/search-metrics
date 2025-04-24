@@ -7,7 +7,7 @@ export default class extends Controller {
   static debounces = ['search']
 
   connect() {
-    useDebounce(this, { wait: 500 })
+    useDebounce(this, { wait: 2000 })
   }
 
   search(event) {

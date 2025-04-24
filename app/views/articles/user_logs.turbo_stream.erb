@@ -1,0 +1,3 @@
+<%= turbo_stream.replace("user_logs") do %>
+  <%= render partial: "user_logs", locals: { user_logs: @user_logs, selected_ip: @selected_ip } %>
+<% end %>
